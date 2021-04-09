@@ -2,6 +2,7 @@ const express = require('express')
 const auth = require('../middleware/auth')
 const Donor = require('../models/donor')
 const User = require('../models/user')
+const {sendDonorFormMail } = require('../emails/account')
 
 const router = new express.Router()
 
@@ -17,6 +18,7 @@ router.post('/aaharam/donate/:id', auth, async(req, res) => {
         ngo.donors = ngo.donors.concat({donor : donor._id})
         await ngo.save()
         await donor.save()
+        sendDonorFormMail(donor.email, donor.name)
         res.send(donor)
     } catch(e) {
         res.status(400).send(e)

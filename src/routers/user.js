@@ -3,6 +3,7 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const multer = require('multer')
 const sharp = require('sharp')
+const {sendWelcomeEmail } = require('../emails/account')
 
 const upload = multer({
     limits: {
@@ -23,6 +24,7 @@ router.post('/users', async (req, res) => {
     try {
         const user = new User(req.body)
         const token = await user.generateAuthToken()
+        sendWelcomeEmail(user.email, user.name)
         res.status(201).send({user, token})
     } catch (e) {
         res.status(400).send(e.message.split(": ")[2])

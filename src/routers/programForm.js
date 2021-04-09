@@ -2,6 +2,7 @@ const express = require('express')
 const auth = require('../middleware/auth')
 const programForm = require('../models/programForm')
 const User = require('../models/user')
+const {sendProgramFormMail } = require('../emails/account')
 
 const router = new express.Router()
 
@@ -14,6 +15,7 @@ router.post('/paryavarana/forms',auth, async (req, res) => {
 
     try {
         await form.save()
+        sendProgramFormMail(req.user.email, req.user.name)
         res.send(form)
     } catch(e) {
         res.status(400).send()
@@ -45,23 +47,6 @@ router.get('/paryavarana/forms/me', auth, async (req, res) => {
         res.status(500).send()
     }
 })
-
-// // Router for fetching single form by id
-// router.get('/paryavarana/forms/me/:id',auth, async (req, res) => {
-//     const _id = req.params.id
-    
-//     try {
-//         const form = await programForm.findOne({_id, owner: req.user._id})
-
-//         if(!form) {
-//             return res.status(404).send()
-//         }
-//         res.send(form)
-//     } catch(e) {
-//         res.status(500).send()
-//     }
-
-// })
 
 // Router for updating a program
 router.patch('/paryavarana/forms/me/:id', auth, async (req, res) => {

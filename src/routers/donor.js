@@ -31,13 +31,9 @@ router.get('/aaharam/me/donors', auth, async (req, res) => {
         const ngo = req.user
         const ngoDonors = ngo.donors
         var i
-        //console.log(ngo)
         var regdonors = []
         for(i = 0; i < ngoDonors.length; i++) {
-            console.log("Inside loop")
             const donor = await Donor.findById(ngoDonors[i].donor)
-            console.log(donor)
-            //donor = donor.toObject()
             regdonors = regdonors.concat(donor)
         }
         res.send(regdonors)

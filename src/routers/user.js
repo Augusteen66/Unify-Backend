@@ -35,10 +35,7 @@ router.post('/users', async (req, res) => {
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)  // findByCredentials is user defined method on User
-        console.log("fine till here")
-        console.log(user)
         const token = await user.generateAuthToken()
-        console.log("fine till here")
         res.send({user, token})
     } catch(e) {
         res.status(400).send()

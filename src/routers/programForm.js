@@ -28,7 +28,6 @@ router.get('/paryavarana/forms',auth, async (req, res) => {
         const forms = await programForm.find({})
         const user = req.user
         const crForms  = await programForm.find({owner: req.user._id})
-        //let avForms = forms.filter(x => !crForms.includes(x))         // For difference
         const avForms = (forms, crForms) => {
             return forms.filter(form => !crForms.some(crForm => form._id === crForm._id))
         }
@@ -91,7 +90,6 @@ router.delete('/paryavarana/forms/me/:id', auth, async (req, res) => {
         }
 
         const regUsers = form.registeredUsers
-        console.log(regUsers.length)
 
         var i
         for(i =0; i < regUsers.length; i++) {

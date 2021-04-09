@@ -29,11 +29,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         minlength: [8, 'Password should contain minimum 8 characters'],
         required: true,
-        /*validate(value) {
-            if (!validator.isAlphanumeric(value, 'en-IN')) {
-                throw new Error('Password should be alphanumeric!')
-            }
-        }*/
     },
     phoneNumber: {
         type: String,
@@ -100,7 +95,7 @@ userSchema.methods.toJSON = function () {
 // Generating Auth token
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({_id : user._id.toString()}, 'thisismylaptop')
+    const token = jwt.sign({_id : user._id.toString()}, process.env.JWT_SECRET)
     
     user.tokens = user.tokens.concat({ token })
     

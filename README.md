@@ -34,4 +34,4 @@ If User is selected, He/She can coordinate with NGOs to complete further formali
 
 https://youtu.be/W2pFDkzMYZg
 
-This repository contains the backend models and routers of unify.
+This repository contains the backend models and routers of unify with database connection to MongoDB using mongoose.
